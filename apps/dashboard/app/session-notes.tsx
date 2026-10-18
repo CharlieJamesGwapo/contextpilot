@@ -1,0 +1,11 @@
+'use client';
+import {useState} from 'react';
+import {displayText} from './ui';
+type Note={text:string;category?:string;created_at?:string};
+const labels:Record<string,string>={context:'Note',decision:'Decision',verification:'Test result',failure:'Failed approach',requirement:'Requirement',changed_file:'Changed file',approval:'Approval',assumption:'Unconfirmed assumption',source:'Project source',tool:'Tool result',recovery:'Recovery note',command:'Command',environment:'Environment'};
+export function SessionNotes({notes}:{notes:Note[]}) {
+ const [query,setQuery]=useState(''),[category,setCategory]=useState('all'),[count,setCount]=useState(8);
+ const filtered=notes.map((note,i)=>({...note,position:i+1})).filter(n=>(category==='all'||n.category===category)&&n.text.toLowerCase().includes(query.toLowerCase())).reverse();
+ const sourceFiles=new Set(notes.filter(n=>n.category==='source').map(n=>n.text.split('\n')[0])).size;
+ return <section><h3>Context messages · {notes.length}</h3><p>Newest updates appear first. Later dated decisions may supersede the initial brief. {sourceFiles} saved source excerpts; token capacity is calculated by the local engine.</p><div className="form-grid"><label>Search saved notes<input type="search" value={query} onChange={e=>{setQuery(e.target.value);setCount(8)}} placeholder="Find decisions, commits or test results"/></label><label>Note type<select value={category} onChange={e=>{setCategory(e.target.value);setCount(8)}}><option value="all">All notes</option>{Array.from(new Set(notes.map(n=>n.category||'context'))).map(c=><option key={c} value={c}>{labels[c]||c}</option>)}</select></label></div>{filtered.slice(0,count).map(n=><details className="context-entry" key={n.position}><summary>Saved note {n.position} · {labels[n.category||'context']||n.category}<span>{displayText(n.text.split('\n')[0]).slice(0,150)}</span></summary><p>{n.created_at?new Date(n.created_at).toLocaleString():'Date not available'}</p><p className="message">{displayText(n.text)}</p></details>)}{!filtered.length&&<p>No matching notes. Try a different search or add your first update.</p>}{filtered.length>count&&<button className="secondary" onClick={()=>setCount(count+8)}>Show older notes ({filtered.length-count})</button>}</section>
+}

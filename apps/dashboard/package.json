@@ -1,0 +1,33 @@
+{
+  "name": "@contextpilot/dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "node scripts/next.mjs dev",
+    "build": "node scripts/next.mjs build",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "npm run build && playwright test",
+    "build:hosted": "node scripts/next.mjs build --hosted",
+    "test:hosted": "playwright test --config playwright.hosted.config.ts"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "next": "^16.4.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "eslint": "^9.0.0",
+    "typescript": "^5.7.0",
+    "@eslint/js": "^9.39.5",
+    "typescript-eslint": "^8.71.2",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
+    "globals": "^17.0.0"
+  }
+}

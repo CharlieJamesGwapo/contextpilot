@@ -1,0 +1,11 @@
+{
+  "context_limit": null,
+  "reserve_tokens": 4096,
+  "warning_percent": 60,
+  "compact_percent": 75,
+  "emergency_percent": 95,
+  "retention_days": 30,
+  "external_enabled": false,
+  "auto_compact_percent": 85,
+  "auto_compact_enabled": false
+}

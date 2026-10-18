@@ -1,0 +1,22 @@
+[package]
+name = "contextpilot-core"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+uuid = { version = "1", features = ["v4", "serde"] }
+chrono = { version = "0.4", features = ["serde"] }
+regex = "1"
+sha2 = "0.10"
+ignore = "0.4"
+thiserror = "2"
+
+tiktoken-rs = "0.12"
+schemars = "1.2"
+
+anyhow = "1"
+
+syn = { version = "2", features = ["full", "visit"] }
+proc-macro2 = { version = "1", features = ["span-locations"] }

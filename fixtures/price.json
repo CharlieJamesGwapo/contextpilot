@@ -1,0 +1,11 @@
+{
+  "provider": "example",
+  "model": "example-only",
+  "input_per_million": 0,
+  "output_per_million": 0,
+  "cached_per_million": null,
+  "currency": "USD",
+  "effective_date": "2026-10-18",
+  "source": "Synthetic schema example; replace with your actual rate",
+  "verified": false
+}

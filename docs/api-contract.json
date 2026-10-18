@@ -1,0 +1,1147 @@
+{
+  "api_version": "v1",
+  "database_schema": 2,
+  "schemas": {
+    "Budget": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "properties": {
+        "limit": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "percent": {
+          "format": "double",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "remaining_tokens": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "reserve_tokens": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "state": {
+          "type": "string"
+        },
+        "used_tokens": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "state",
+        "used_tokens",
+        "reserve_tokens"
+      ],
+      "title": "Budget",
+      "type": "object"
+    },
+    "Checkpoint": {
+      "$defs": {
+        "Estimate": {
+          "properties": {
+            "measurement": {
+              "type": "string"
+            },
+            "method": {
+              "type": "string"
+            },
+            "tokens": {
+              "format": "uint64",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "uncertainty": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "tokens",
+            "method",
+            "measurement",
+            "uncertainty"
+          ],
+          "type": "object"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "properties": {
+        "approval_boundaries": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "changed_files": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "constraints": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "continuation": {
+          "type": "string"
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "decisions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "id": {
+          "type": "string"
+        },
+        "integrity_hash": {
+          "type": "string"
+        },
+        "integrity_status": {
+          "type": "string"
+        },
+        "next_steps": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "objective": {
+          "type": "string"
+        },
+        "project_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "recovery_references": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "requirements": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "schema_version": {
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "session_id": {
+          "type": "string"
+        },
+        "source_revision": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "source_usage": {
+          "$ref": "#/$defs/Estimate"
+        },
+        "unresolved_issues": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "verified_results": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "schema_version",
+        "id",
+        "session_id",
+        "objective",
+        "requirements",
+        "constraints",
+        "decisions",
+        "changed_files",
+        "verified_results",
+        "unresolved_issues",
+        "next_steps",
+        "recovery_references",
+        "approval_boundaries",
+        "created_at",
+        "source_revision",
+        "source_usage",
+        "integrity_status",
+        "integrity_hash",
+        "continuation"
+      ],
+      "title": "Checkpoint",
+      "type": "object"
+    },
+    "CompactionPreview": {
+      "$defs": {
+        "Checkpoint": {
+          "properties": {
+            "approval_boundaries": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "changed_files": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "constraints": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "continuation": {
+              "type": "string"
+            },
+            "created_at": {
+              "type": "string"
+            },
+            "decisions": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "id": {
+              "type": "string"
+            },
+            "integrity_hash": {
+              "type": "string"
+            },
+            "integrity_status": {
+              "type": "string"
+            },
+            "next_steps": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "objective": {
+              "type": "string"
+            },
+            "project_id": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "recovery_references": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "requirements": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "schema_version": {
+              "format": "uint32",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "session_id": {
+              "type": "string"
+            },
+            "source_revision": {
+              "format": "uint64",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "source_usage": {
+              "$ref": "#/$defs/Estimate"
+            },
+            "unresolved_issues": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "verified_results": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "schema_version",
+            "id",
+            "session_id",
+            "objective",
+            "requirements",
+            "constraints",
+            "decisions",
+            "changed_files",
+            "verified_results",
+            "unresolved_issues",
+            "next_steps",
+            "recovery_references",
+            "approval_boundaries",
+            "created_at",
+            "source_revision",
+            "source_usage",
+            "integrity_status",
+            "integrity_hash",
+            "continuation"
+          ],
+          "type": "object"
+        },
+        "Estimate": {
+          "properties": {
+            "measurement": {
+              "type": "string"
+            },
+            "method": {
+              "type": "string"
+            },
+            "tokens": {
+              "format": "uint64",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "uncertainty": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "tokens",
+            "method",
+            "measurement",
+            "uncertainty"
+          ],
+          "type": "object"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "properties": {
+        "after_tokens": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "before_tokens": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "checkpoint": {
+          "$ref": "#/$defs/Checkpoint"
+        },
+        "tokens_reduced": {
+          "format": "int64",
+          "type": "integer"
+        },
+        "valid": {
+          "type": "boolean"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "checkpoint",
+        "before_tokens",
+        "after_tokens",
+        "tokens_reduced",
+        "valid",
+        "warnings"
+      ],
+      "title": "CompactionPreview",
+      "type": "object"
+    },
+    "Config": {
+      "$defs": {
+        "EfficiencyProfile": {
+          "additionalProperties": false,
+          "properties": {
+            "max_file_tokens": {
+              "default": 12000,
+              "format": "uint64",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "max_files": {
+              "default": 8,
+              "format": "uint",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "max_report_chars": {
+              "default": 16000,
+              "format": "uint",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "max_tool_output_chars": {
+              "default": 12000,
+              "format": "uint",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "subagent_concurrency": {
+              "default": 0,
+              "format": "uint8",
+              "maximum": 255,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "verbosity": {
+              "default": "brief",
+              "type": "string"
+            },
+            "verification_required": {
+              "default": true,
+              "type": "boolean"
+            }
+          },
+          "type": "object"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "auto_compact_enabled": {
+          "default": false,
+          "type": "boolean"
+        },
+        "auto_compact_percent": {
+          "default": 85,
+          "format": "uint8",
+          "maximum": 255,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "compact_percent": {
+          "default": 75,
+          "format": "uint8",
+          "maximum": 255,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "context_limit": {
+          "default": null,
+          "format": "uint64",
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "emergency_percent": {
+          "default": 95,
+          "format": "uint8",
+          "maximum": 255,
+          "minimum": 0,
+          "type": "integer"
+        },
+        "external_enabled": {
+          "default": false,
+          "type": "boolean"
+        },
+        "managed_session_storage": {
+          "default": true,
+          "type": "boolean"
+        },
+        "profile": {
+          "$ref": "#/$defs/EfficiencyProfile",
+          "default": {
+            "max_file_tokens": 12000,
+            "max_files": 8,
+            "max_report_chars": 16000,
+            "max_tool_output_chars": 12000,
+            "subagent_concurrency": 0,
+            "verbosity": "brief",
+            "verification_required": true
+          }
+        },
+        "project_exclusions": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "prompt_logging": {
+          "default": false,
+          "type": "boolean"
+        },
+        "reserve_tokens": {
+          "default": 4096,
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "retention_days": {
+          "default": 30,
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "system_overhead_tokens": {
+          "default": 0,
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "tokenizer_model": {
+          "default": "",
+          "type": "string"
+        },
+        "tokenizer_provider": {
+          "default": "local",
+          "type": "string"
+        },
+        "tool_overhead_tokens": {
+          "default": 0,
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "warning_percent": {
+          "default": 60,
+          "format": "uint8",
+          "maximum": 255,
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "title": "Config",
+      "type": "object"
+    },
+    "Estimate": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "properties": {
+        "measurement": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string"
+        },
+        "tokens": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "uncertainty": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "tokens",
+        "method",
+        "measurement",
+        "uncertainty"
+      ],
+      "title": "Estimate",
+      "type": "object"
+    },
+    "FileContext": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "properties": {
+        "cached": {
+          "type": "boolean"
+        },
+        "excerpt": {
+          "type": "string"
+        },
+        "hash": {
+          "type": "string"
+        },
+        "language": {
+          "type": "string"
+        },
+        "line_end": {
+          "format": "uint",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "line_start": {
+          "format": "uint",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "note": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "omitted": {
+          "default": false,
+          "type": "boolean"
+        },
+        "path": {
+          "type": "string"
+        },
+        "tokens": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "path",
+        "line_start",
+        "line_end",
+        "excerpt",
+        "hash",
+        "tokens",
+        "language",
+        "cached"
+      ],
+      "title": "FileContext",
+      "type": "object"
+    },
+    "ModelMetadata": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "context_limit": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "effective_date": {
+          "type": "string"
+        },
+        "model": {
+          "type": "string"
+        },
+        "provider": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "verified": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "provider",
+        "model",
+        "source",
+        "effective_date",
+        "verified"
+      ],
+      "title": "ModelMetadata",
+      "type": "object"
+    },
+    "Optimization": {
+      "$defs": {
+        "Preservation": {
+          "properties": {
+            "valid": {
+              "type": "boolean"
+            },
+            "warnings": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "valid",
+            "warnings"
+          ],
+          "type": "object"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "properties": {
+        "candidate": {
+          "default": null,
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "candidate_warnings": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "changes": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "method": {
+          "type": "string"
+        },
+        "optimized": {
+          "type": "string"
+        },
+        "optimized_tokens": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "original_tokens": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "preservation": {
+          "$ref": "#/$defs/Preservation"
+        },
+        "reduction_percent": {
+          "format": "double",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "tokens_reduced": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "optimized",
+        "original_tokens",
+        "optimized_tokens",
+        "tokens_reduced",
+        "changes",
+        "preservation",
+        "method"
+      ],
+      "title": "Optimization",
+      "type": "object"
+    },
+    "Price": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "cache_write_per_million": {
+          "default": null,
+          "format": "double",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "cached_per_million": {
+          "format": "double",
+          "type": [
+            "number",
+            "null"
+          ]
+        },
+        "currency": {
+          "type": "string"
+        },
+        "effective_date": {
+          "type": "string"
+        },
+        "input_per_million": {
+          "format": "double",
+          "type": "number"
+        },
+        "model": {
+          "type": "string"
+        },
+        "output_per_million": {
+          "format": "double",
+          "type": "number"
+        },
+        "provider": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "verified": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "provider",
+        "model",
+        "input_per_million",
+        "output_per_million",
+        "currency",
+        "effective_date",
+        "source",
+        "verified"
+      ],
+      "title": "Price",
+      "type": "object"
+    },
+    "RepositoryIndex": {
+      "$defs": {
+        "IndexedFile": {
+          "properties": {
+            "cached": {
+              "default": false,
+              "type": "boolean"
+            },
+            "dependencies": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "hash": {
+              "type": "string"
+            },
+            "imports": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "language": {
+              "type": "string"
+            },
+            "path": {
+              "type": "string"
+            },
+            "symbols": {
+              "items": {
+                "$ref": "#/$defs/RepositorySymbol"
+              },
+              "type": "array"
+            }
+          },
+          "required": [
+            "path",
+            "hash",
+            "language",
+            "symbols",
+            "imports",
+            "dependencies"
+          ],
+          "type": "object"
+        },
+        "RepositorySymbol": {
+          "properties": {
+            "line": {
+              "format": "uint",
+              "minimum": 0,
+              "type": "integer"
+            },
+            "name": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "name",
+            "line"
+          ],
+          "type": "object"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "properties": {
+        "cache_written": {
+          "type": "boolean"
+        },
+        "files": {
+          "items": {
+            "$ref": "#/$defs/IndexedFile"
+          },
+          "type": "array"
+        },
+        "version": {
+          "format": "uint32",
+          "minimum": 0,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "version",
+        "files",
+        "cache_written"
+      ],
+      "title": "RepositoryIndex",
+      "type": "object"
+    },
+    "Session": {
+      "$defs": {
+        "Message": {
+          "properties": {
+            "category": {
+              "type": "string"
+            },
+            "created_at": {
+              "type": "string"
+            },
+            "text": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "text",
+            "category",
+            "created_at"
+          ],
+          "type": "object"
+        }
+      },
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "properties": {
+        "constraints": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "context_limit": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "created_at": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        },
+        "messages": {
+          "items": {
+            "$ref": "#/$defs/Message"
+          },
+          "type": "array"
+        },
+        "next_steps": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "objective": {
+          "type": "string"
+        },
+        "project_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "requirements": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "revision": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "unresolved_issues": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "updated_at": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "objective",
+        "requirements",
+        "constraints",
+        "unresolved_issues",
+        "next_steps",
+        "messages",
+        "created_at",
+        "updated_at",
+        "revision"
+      ],
+      "title": "Session",
+      "type": "object"
+    },
+    "ToolOutputReport": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "properties": {
+        "complete_output_path": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "displayed_chars": {
+          "format": "uint",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "exit_status": {
+          "format": "int32",
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "note": {
+          "type": "string"
+        },
+        "original_chars": {
+          "format": "uint",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "over_target": {
+          "type": "boolean"
+        },
+        "summarized_progress_lines": {
+          "format": "uint",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "target_chars": {
+          "format": "uint",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "text": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "text",
+        "original_chars",
+        "displayed_chars",
+        "target_chars",
+        "over_target",
+        "summarized_progress_lines",
+        "note"
+      ],
+      "title": "ToolOutputReport",
+      "type": "object"
+    },
+    "UsageImport": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "additionalProperties": false,
+      "properties": {
+        "cache_write_input_tokens": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "cached_input_tokens": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "external_id": {
+          "type": "string"
+        },
+        "input_tokens": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "model": {
+          "type": "string"
+        },
+        "output_tokens": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": "integer"
+        },
+        "project_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "provider": {
+          "type": "string"
+        },
+        "reasoning_tokens": {
+          "format": "uint64",
+          "minimum": 0,
+          "type": [
+            "integer",
+            "null"
+          ]
+        },
+        "recorded_at": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "session_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "source": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "provider",
+        "model",
+        "input_tokens",
+        "output_tokens",
+        "source",
+        "external_id"
+      ],
+      "title": "UsageImport",
+      "type": "object"
+    }
+  }
+}

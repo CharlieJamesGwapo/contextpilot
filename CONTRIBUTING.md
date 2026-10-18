@@ -1,0 +1,3 @@
+# Contributing
+
+Install stable Rust and Node.js 22 or 24. Run `cargo test --workspace`, `cargo fmt --check`, `cargo clippy --workspace --all-targets -- -D warnings`, and the dashboard checks documented in README. Keep changes focused and include regression tests for lost requirements, unsafe file access, storage transactions, API protection, and usage semantics. Provider tests must use local mocks and require no credentials. Do not commit local databases, API keys, session text or generated node_modules. The project uses the MIT license, selected by the owner. Contributions are under the same license.
