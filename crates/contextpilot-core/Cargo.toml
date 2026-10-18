@@ -20,3 +20,6 @@ anyhow = "1"
 
 syn = { version = "2", features = ["full", "visit"] }
 proc-macro2 = { version = "1", features = ["span-locations"] }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+uuid = { version = "1", features = ["js"] }

@@ -552,6 +552,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "contextpilot-browser"
+version = "0.1.0"
+dependencies = [
+ "contextpilot-core",
+ "serde",
+ "serde_json",
+ "wasm-bindgen",
+]
+
+[[package]]
 name = "contextpilot-core"
 version = "0.1.0"
 dependencies = [

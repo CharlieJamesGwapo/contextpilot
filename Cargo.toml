@@ -1,5 +1,5 @@
 [workspace]
-members = ["crates/contextpilot-core", "crates/contextpilot-app", "crates/contextpilot-providers"]
+members = ["crates/contextpilot-core", "crates/contextpilot-app", "crates/contextpilot-providers", "crates/contextpilot-browser"]
 resolver = "2"
 
 [workspace.package]

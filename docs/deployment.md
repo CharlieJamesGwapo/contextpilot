@@ -1,17 +1,16 @@
-# Static hosting and local architecture
+# Static hosting and browser-local architecture
 
-ContextPilot keeps the Rust CLI/API and SQLite workspace local. The Next.js dashboard is a static export of the same application, with an explicit hosted fallback. No backend, database, private context or provider credentials are deployed.
+ContextPilot on Cloudflare Pages is a functional browser workspace. The actual Rust core is compiled to WebAssembly for token estimates, conservative prompt optimization, session validation and integrity-checked checkpoint semantics. IndexedDB stores selected project contents, sessions, checkpoints and recovery snapshots on the user's device. No project content is stored on Cloudflare.
 
-| Capability | Hosted frontend | Full local application |
+| Capability | Browser workspace | Native local application |
 | --- | --- | --- |
-| Compass branding, responsive navigation and theme | Available | Available |
-| Workflow explanations and setup-command copy | Available | Available |
-| Local project registration/indexing/retrieval | Unavailable; explained | Rust reads selected local folder |
-| Prompt optimization and token counting | Unavailable; explained | Rust deterministic engine; no AI key needed |
-| Sessions, checkpoint save/preview/export/restore | Unavailable; no history uploaded | Local SQLite and integrity-checked recovery snapshots |
-| Usage reports, preferences and optional providers | No workspace data or credentials | Local API; external provider requests require configuration and consent |
+| Prompt optimization and estimates | Rust WASM on this device | Same Rust core |
+| Project context | Explicitly chosen files; browser-local search | Direct filesystem indexing |
+| Sessions and checkpoints | IndexedDB with explicit JSON exports/imports | SQLite with recovery snapshots |
+| AI services | No connections or API keys | Optional, with configuration and consent |
+| Synchronization | Manual backup/checkpoint files | No automatic cloud sync |
 
-A hosted origin must not connect to localhost. There is no proxy, tunnel, permissive CORS setting or public file-read endpoint. Hosted mode never reads the local connection code from browser storage, hides credential entry, and guards API calls. The local API's Host/Origin/bearer checks stay unchanged. Static-host CSP blocks outbound connections. Exported setup commands contain no credentials.
+The hosted origin never connects to localhost or reads a native connection code. The existing loopback API authentication remains intact. CSP allows only same-origin application/WASM requests; no analytics, external scripts, provider calls, workers, cloud databases or storage bindings are configured. Browser storage is not encrypted at rest and is accessible to people using the same browser profile. Clearing site data removes it, so the UI provides explicit backup export/import. Downloads can contain private context; keep them private. Selected file access is read-only and does not change Git repositories.
 
 ## Builds
 
@@ -19,11 +18,12 @@ From `apps/dashboard`:
 
 ```sh
 npm ci
+# Rebuild the checked-in WASM assets after Rust changes: ../../scripts/build-browser-core.sh
 npm run build          # full local UI -> out/
-npm run build:hosted   # hosted fallback -> hosted-out/
+npm run build:hosted   # browser workspace -> hosted-out/
 ```
 
-`build:hosted` sets only the non-secret `NEXT_PUBLIC_CONTEXTPILOT_MODE=hosted` value. Do not configure any provider keys in the hosting dashboard. Runtime hostname checks also refuse local API actions on non-loopback origins if a normal build is accidentally hosted.
+`build:hosted` sets only the non-secret `NEXT_PUBLIC_CONTEXTPILOT_MODE=hosted` value. Do not configure any provider keys in the hosting dashboard. Runtime hostname checks select browser storage on non-loopback origins even if a normal build is accidentally hosted.
 
 The existing Rust process serves `out/`; `hosted-out/` is separate so a hosted build does not replace the local application's static export. Only the contents of `hosted-out/` may be uploaded. It contains no API Functions. The `public/_headers` file adds static hosting protections on Cloudflare Pages; Rust retains its own existing security behavior.
 

@@ -4,9 +4,11 @@ pub mod tokenizers;
 pub use tokenizers::*;
 pub mod context;
 pub mod prompts;
+#[cfg(not(target_arch = "wasm32"))]
 pub mod repository;
 pub use context::*;
 pub use prompts::*;
+#[cfg(not(target_arch = "wasm32"))]
 pub use repository::*;
 use serde::{Deserialize, Serialize};
 
@@ -244,4 +246,5 @@ pub fn redact(text: &str) -> String {
     out
 }
 
+#[cfg(not(target_arch = "wasm32"))]
 pub mod security;

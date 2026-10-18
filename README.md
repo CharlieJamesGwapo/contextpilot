@@ -13,11 +13,13 @@ A local-first Rust CLI and dashboard for prompt optimization, repository context
 - Text/JSON continuation export for an external AI coding assistant.
 - Optional consent-gated providers; all core preparation tools work without AI API keys.
 
-## Hosted frontend versus full local app
+## Browser workspace and full local app
 
-The cloud-hosted frontend shows the actual ContextPilot interface with explicit local-workflow guidance, navigation, themes and copyable setup commands. It does not run the Rust backend, access your filesystem, display your private sessions, optimize prompts or restore checkpoints. Those features remain fully available locally. The hosted site makes no local-API requests and accepts no connection codes or source uploads.
+The Cloudflare edition runs the genuine Rust prompt and checkpoint engine as WebAssembly on your device. No API key, account or server database is needed. Choose project files explicitly, search their contents locally, keep session notes, preview and save integrity-checked checkpoints, and export backups. Nothing selected is uploaded.
 
-Cloudflare Pages is the selected static target. Only `apps/dashboard/hosted-out/` is uploaded; the private GitHub repository and local SQLite data are separate. Vercel's free Hobby plan excludes the requested commercial use, so no Vercel deployment or paid upgrade is used. Read the [deployment architecture and free-tier limits](docs/deployment.md).
+Projects, selected file contents, sessions and recovery snapshots are stored in this browser's IndexedDB. They are separate from the desktop app's SQLite workspace and other browsers or devices. Browser storage is not encrypted at rest; anyone using this browser profile can open it. Clearing site data removes it. Export a workspace backup regularly and protect that file like your source code. Importing a desktop checkpoint transfers only that explicitly selected file; it does not expose or sync the desktop workspace.
+
+The native app still supports direct filesystem indexing and optional consent-gated AI providers. The browser edition has no provider connections, localhost requests, proxy, database binding or paid services. Cloudflare serves only public application assets, including the Rust WASM binary. Read the [deployment architecture](docs/deployment.md).
 
 ## Build and run
 
@@ -43,7 +45,7 @@ cd apps/dashboard
 npm ci
 npm run dev             # development UI; full workflows need the Rust local API
 npm run build           # full local UI in out/
-npm run build:hosted    # safe hosted fallback in hosted-out/
+npm run build:hosted    # private browser workspace in hosted-out/
 ```
 
 For complete local workflows, use the Rust-served production dashboard as described above. The Next.js development server alone does not proxy the Rust API; same-origin authorization is intentionally enforced. Hosted builds use a separate export directory, preserving the local `out/` build. No public backend URL or secret hosting environment variables are required.
