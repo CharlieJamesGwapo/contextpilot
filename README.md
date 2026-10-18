@@ -1,29 +1,82 @@
-# ContextPilot (working name)
+# ContextPilot
 
-A local-first Rust CLI and dashboard for prompt optimization, repository context, usage analysis and recoverable managed sessions. Local features require no account or API key. Existing projects already use this name; it is provisional and not cleared for distribution. See [naming review](docs/naming-review.md).
+**Pick up your next AI coding session without starting from scratch.**
 
-![Genuine hosted frontend preview; no private workspace data](docs/hosted-preview.jpg)
+ContextPilot helps you prepare useful project context, remove safe repetition from prompts, and save decisions, constraints, test results and next steps as checkpoints. Export a checkpoint for your next conversation with an AI coding assistant, then continue from where you left off.
 
-## Features
+**[Try the live app](https://contextpilot-3pl.pages.dev/) · [Browse the source](https://github.com/CharlieJamesGwapo/contextpilot) · [Report an issue](https://github.com/CharlieJamesGwapo/contextpilot/issues)**
 
-- Original compass branding, light/dark themes and responsive dashboard navigation.
-- Local project indexing, file-context review, selected exports and session linking.
-- Conservative prompt optimization with original/suggested comparison and honest local estimates.
-- Saved decisions, failures, verification evidence and recoverable checkpoints.
-- Text/JSON continuation export for an external AI coding assistant.
-- Optional consent-gated providers; all core preparation tools work without AI API keys.
+No account or AI API key is needed for the browser workspace or the core local tools. ContextPilot prepares context for your assistant; it does not generate AI answers or modify your code in the browser edition.
 
-## Browser workspace and full local app
+![ContextPilot browser workspace with no private project data](docs/hosted-preview.jpg)
 
-The Cloudflare edition runs the genuine Rust prompt and checkpoint engine as WebAssembly on your device. No API key, account or server database is needed. Choose project files explicitly, search their contents locally, keep session notes, preview and save integrity-checked checkpoints, and export backups. Nothing selected is uploaded.
+## What can I do with it?
 
-Projects, selected file contents, sessions and recovery snapshots are stored in this browser's IndexedDB. They are separate from the desktop app's SQLite workspace and other browsers or devices. Browser storage is not encrypted at rest; anyone using this browser profile can open it. Clearing site data removes it. Export a workspace backup regularly and protect that file like your source code. Importing a desktop checkpoint transfers only that explicitly selected file; it does not expose or sync the desktop workspace.
+- **Prepare project context:** choose files, search locally, review their contents and attach only what you need to a session.
+- **Tidy up prompts:** compare your original prompt with conservative local changes. Requirements and constraints are protected; review the result before using it.
+- **Keep a session:** record your objective, decisions, useful context, verification results and next steps.
+- **Save your place:** preview, inspect and export integrity-checked checkpoints for your next AI conversation.
+- **Recover your work:** restore saved browser checkpoints and export/import private workspace backups.
 
-The native app still supports direct filesystem indexing and optional consent-gated AI providers. The browser edition has no provider connections, localhost requests, proxy, database binding or paid services. Cloudflare serves only public application assets, including the Rust WASM binary. Read the [deployment architecture](docs/deployment.md).
+Token estimates are labeled. A smaller prompt is not proof of lower provider bills or better AI answers.
 
-## Build and run
+## Try it now — no installation or API keys
 
-Requires stable Rust, a C compiler for bundled SQLite, and Node.js 22 or 24 with npm to build the dashboard. The native runtime verified here is macOS Apple Silicon. Intel macOS, Linux x86_64 and Windows x86_64 have also been cross-compiled and linked; their runtime and native-vault behavior remain untested. See [platform verification](docs/platform-verification.md).
+Open **[contextpilot-3pl.pages.dev](https://contextpilot-3pl.pages.dev/)** in a modern browser.
+
+1. In **Sessions**, create a session with your task and constraints.
+2. In **Projects**, name a project and choose a folder or individual text files. Search, review and attach selected files to your session.
+3. In **Prompts**, paste instructions and choose **Optimize** to compare local suggestions.
+4. Back in **Sessions**, add progress notes, choose **Preview checkpoint**, review it, then **Save checkpoint**. Export text for your assistant or JSON for a later import.
+5. In **Settings**, choose **Export browser backup** regularly. To recover elsewhere, open ContextPilot and choose **Import checkpoint or browser backup**.
+
+File selection is explicit: the website cannot silently read arbitrary folders or edit your originals. Browser projects accept up to 250 text files, 256 KiB per file and 4 MiB per selection. Secret filenames, detected private keys, binary files and generated folders are filtered; review your selections because filtering cannot recognize every secret.
+
+## Where does my work stay?
+
+| | Live browser app | Full local application |
+| --- | --- | --- |
+| Processing | Rust engine compiled to WebAssembly, running on your device | Rust CLI and authenticated loopback API |
+| Project access | Only files you explicitly select; read-only copies | Local filesystem indexing with configured exclusions |
+| Sessions and recovery snapshots | This browser profile's IndexedDB | Local SQLite database |
+| AI API keys | None; no provider connections | None for core tools; optional providers require separate setup and consent |
+| Move to another device | Explicit checkpoint or backup export/import | Explicit exports or local database backups |
+
+**Your project files, sessions and checkpoints are not uploaded to Cloudflare or automatically synced to GitHub.** Cloudflare serves the public application assets. The browser workspace makes no AI-provider or localhost API requests and includes no third-party analytics. The local API remains restricted to its own loopback origin and requires a private connection code.
+
+Browser data is specific to the current browser profile and site origin. A different browser, device, or local preview starts with a separate workspace; it does not mean your original data disappeared. The hosted app does not automatically import your native workspace.
+
+**Storage is not encrypted at rest.** Someone using the same browser profile can read browser data. Clearing site data or browser storage eviction can remove it. Native SQLite storage is also unencrypted. Export backups, keep them private, and never commit backups or checkpoints containing private work. Integrity checks detect damaged or altered checkpoint contents; they do not encrypt the contents.
+
+Backup imports are validated locally before saving. Invalid or conflicting browser backups are rejected without replacing existing records. Importing a native checkpoint creates a browser continuation session; it cannot restore original project files or the native application's SQLite recovery snapshot. Restoring a checkpoint changes ContextPilot session state, not your source files or Git commits.
+
+See [privacy details](docs/privacy.md), [security](SECURITY.md), and [deployment architecture](docs/deployment.md).
+
+## Run it locally without API keys
+
+Clone the public repository first:
+
+```sh
+git clone https://github.com/CharlieJamesGwapo/contextpilot.git
+cd contextpilot
+```
+
+### Option A: browser workspace on your computer
+
+Requires Node.js 22 or 24 with npm. The prebuilt Rust WebAssembly assets are included; you do not need a Rust server or an AI provider.
+
+```sh
+cd apps/dashboard
+npm ci
+npm run build:hosted
+node scripts/serve-hosted.mjs
+```
+
+Open **http://127.0.0.1:4388/**. Keep the terminal running; stop it with Ctrl+C. This uses browser-local storage, separate from the live site's storage. Use explicit backup export/import to move work between those origins.
+
+### Option B: full Rust CLI and local dashboard
+
+Requires stable Rust, a C compiler for bundled SQLite, and Node.js 22 or 24 with npm. From the repository root:
 
 ```sh
 cargo build --release --locked
@@ -36,7 +89,11 @@ cd ../..
 ./target/release/contextpilot dashboard
 ```
 
-Open the announced loopback URL and paste the contents of the private `.contextpilot/dashboard-4317.token` file into Connect. Tokens are not printed to logs or placed in URLs. Stop with Ctrl+C. The Rust server serves the static export; no Node server is needed at runtime. When moving the binary, supply `dashboard --assets /absolute/path/to/apps/dashboard/out`. `cargo install --path crates/contextpilot-app --locked` installs the CLI locally.
+Open the loopback address printed in the terminal. Read the private connection-code file at the location announced by ContextPilot, then paste its contents into the local dashboard's connection form. **This code protects local workspace access; it is not an AI API key.** The default port is 4317; use the actual address and file path printed by your process. Never share the connection code or put it in a URL.
+
+On Windows, use `target\release\contextpilot.exe` in place of `./target/release/contextpilot`. Stop the server with Ctrl+C. The Rust process serves the prebuilt dashboard, so no Node server is needed at runtime. When moving the binary, pass `dashboard --assets /absolute/path/to/apps/dashboard/out`. To install the CLI locally, run `cargo install --path crates/contextpilot-app --locked`.
+
+The native runtime has been verified on macOS Apple Silicon. Intel macOS, Linux x86_64 and Windows x86_64 have been cross-compiled and linked; runtime and native-vault behavior on those platforms remain untested. See [platform verification](docs/platform-verification.md).
 
 ## Frontend development and static hosting
 
@@ -133,12 +190,13 @@ npm audit
 npm test
 npm run build:hosted
 npm run test:hosted
+npm run test:browser
 python3 ../../scripts/security-check.py --staged
 ```
 
 `python3 scripts/acceptance.py target/debug/contextpilot` exercises local persistence and backup recovery. `python3 scripts/demo.py target/debug/contextpilot` creates an isolated, clearly fictional demo without fabricated provider usage. JSON Schemas derive from Rust types; they are not a full OpenAPI specification. Deterministic HTTP mocks verify adapters without keys. Current evidence and external runtime/release prerequisites are recorded in [verification](docs/verification.md) and [implementation](docs/implementation.md).
 
-MIT license. The private source repository and any static hosting release contain no personal workspace records. No paid plan or service is required for the full local application. Further documentation: [CLI](docs/cli-reference.md), [API](docs/api.md), [architecture](docs/architecture.md), [compaction/recovery](docs/context-compaction.md), and [troubleshooting](docs/troubleshooting.md).
+MIT license. The public source repository and static hosting release contain application code and synthetic fixtures, not personal workspace records. No paid plan or service is required for the full local application. Further documentation: [CLI](docs/cli-reference.md), [API](docs/api.md), [architecture](docs/architecture.md), [compaction/recovery](docs/context-compaction.md), and [troubleshooting](docs/troubleshooting.md).
 
 ## Repository publication and PHP 0 operation
 
@@ -146,4 +204,12 @@ Real provider credentials belong only in the local backend environment; `.env.ex
 
 Personal screenshots/reports, `.contextpilot`, databases, bearer codes, private environment files, exports, logs, caches and build artifacts are ignored. Synthetic test fixtures remain in source. Keep private data backups outside the Git staging set. The source scanner prints locations rather than secret values.
 
-GitHub Actions checks are manual (`workflow_dispatch`) so pushing this private repository does not automatically consume hosted-runner quota. Run the full checks locally at PHP 0; starting a hosted workflow may consume your account's included minutes. No paid runner, hosted database, analytics, telemetry or provider API is enabled. Cloudflare Pages static hosting uses a limited free tier; current limits and eligibility must be rechecked for later releases.
+GitHub Actions checks are manual (`workflow_dispatch`) so pushing this repository does not automatically start hosted checks. Run the full checks locally at PHP 0; starting a hosted workflow may consume your account's included minutes. No paid runner, hosted database, analytics, telemetry or provider API is enabled. Cloudflare Pages static hosting uses a limited free tier; current limits and eligibility must be rechecked for later releases.
+
+## Contributing and license
+
+Feedback, bug reports and contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md), use synthetic fixtures when testing, and do not include credentials or private project context in issues or pull requests.
+
+ContextPilot is open source under the [MIT license](LICENSE). Core local tools need no paid AI API; optional external providers may charge separately when explicitly configured and used. The live app uses Cloudflare Pages static hosting, subject to its free-tier limits.
+
+ContextPilot remains a working name; it has not received trademark clearance. See the [naming review](docs/naming-review.md).

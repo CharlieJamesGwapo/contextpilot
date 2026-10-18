@@ -3,8 +3,6 @@ node_modules/
 .next/
 out/
 .contextpilot/
-.env
-.env.*
 !.env.example
 *.sqlite*
 *.token
@@ -36,3 +34,4 @@ test-results/
 /docs/dashboard.png
 
 hosted-out/
+config.bat
