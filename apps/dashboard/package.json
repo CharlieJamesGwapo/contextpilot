@@ -3,12 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "node scripts/next.mjs dev",
-    "build": "node scripts/next.mjs build",
+    "dev": "node init && node scripts/next.mjs dev",
+    "build": "node init && node scripts/next.mjs build",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "test": "npm run build && playwright test",
-    "build:hosted": "node scripts/next.mjs build --hosted",
+    "build:hosted": "node init && node scripts/next.mjs build --hosted",
     "test:hosted": "playwright test --config playwright.hosted.config.ts",
     "test:browser": "playwright test --config playwright.browser.config.ts"
   },
