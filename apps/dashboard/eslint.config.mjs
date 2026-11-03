@@ -3,10 +3,6 @@ import tseslint from 'typescript-eslint';
 import reactHooks from 'eslint-plugin-react-hooks';
 import jsxA11y from 'eslint-plugin-jsx-a11y';
 import globals from 'globals';
-import { createRequire } from 'module';
-
-var require = createRequire(import.meta.url);
-var module = { exports: {} };
 
 export default tseslint.config(
   { ignores: ['out/**', 'hosted-out/**', '.next/**', 'next-env.d.ts', 'app/browser-core/**'] },
